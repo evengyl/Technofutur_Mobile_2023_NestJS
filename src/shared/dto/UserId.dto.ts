@@ -3,6 +3,6 @@ import { IsString } from "class-validator";
 
 export class UsersId_DTO{
 
-    @IsString()
+    @IsNumber()
     id : number
 }

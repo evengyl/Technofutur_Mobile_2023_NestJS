@@ -1,35 +1,37 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Ip, Next, Param, ParseIntPipe, Patch, Post, Query, Request, Response, Session, ValidationPipe } from "@nestjs/common";
 import { UpdateUser_DTO } from "src/shared/dto/UpdateUser.dto";
 import { UsersId_DTO } from "src/shared/dto/UserId.dto";
+import { UsersEntity } from "src/shared/entities/Users.entity";
 import { ErrorMessage, ErrorStatus } from "src/shared/utilities/error.enum";
 import { SuccessMessage } from "src/shared/utilities/success.enum";
+import { UsersService } from "./users.service";
 
 @Controller("api/v1/users")
 export class UsersController{
 
+    constructor(
+        private readonly usersServe : UsersService
+    ) {}
+
+
 
     @Get()
-    getAllUser()
+    getAllUser() : Promise<UsersEntity[]>
     {
-        return ["tata", "toto"]
-    }
-
-
-    @Get()
-    getOneUserQuery(@Query() userId : any)
-    {
-        console.log(userId)
-        if(userId.id)
-            return ["real USer"]
-        else
-            return ["tata", "toto"]
+        return this.usersServe.getAllUser()
     }
 
 
     @Get(":id")
-    getOneUserById(@Param('id', ParseIntPipe) userId : number)
+    getOneUserById(
+        @Param('id', ParseIntPipe) userId : number //on a [0,1,2] +1 [1,2,3]
+    ) : Promise<UsersEntity>
     {
-        console.log("User id du get one :", userId)
+        /*
+        en query je recois un arrya [ userId : 1]
+        alors que mon dto est type pour faire userId{ id : 1}
+        */
+        return this.usersServe.getOneUserById(userId)
     }
 
 
