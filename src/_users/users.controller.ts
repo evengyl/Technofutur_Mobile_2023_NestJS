@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Ip, Next, Param, ParseIntPipe, Patch, Post, Query, Request, Response, Session, ValidationPipe } from "@nestjs/common";
-import { UpdateUser_DTO } from "src/shared/dto/UpdateUser.dto";
-import { UsersId_DTO } from "src/shared/dto/UserId.dto";
+import { NewUserDTO } from "src/shared/dto/NewUser.dto";
+import { UpdateUserDTO } from "src/shared/dto/UpdateUser.dto";
+import { UsersIdDTO } from "src/shared/dto/UserId.dto";
 import { UsersEntity } from "src/shared/entities/Users.entity";
 import { ErrorMessage, ErrorStatus } from "src/shared/utilities/error.enum";
 import { SuccessMessage } from "src/shared/utilities/success.enum";
@@ -24,61 +25,31 @@ export class UsersController{
 
     @Get(":id")
     getOneUserById(
-        @Param('id', ParseIntPipe) userId : number //on a [0,1,2] +1 [1,2,3]
+        @Param('id', ParseIntPipe) userId : number
     ) : Promise<UsersEntity>
     {
-        /*
-        en query je recois un arrya [ userId : 1]
-        alors que mon dto est type pour faire userId{ id : 1}
-        */
         return this.usersServe.getOneUserById(userId)
     }
 
 
-    // @Get(":id")
-    // getOneUserById(@Param('id', ParseIntPipe) userId : number)
-    // {
-    //     console.log("User id du get one :", userId)
-    // }
 
-
-    // @Get(":id")
-    // getOneUser(@Param() userId : any)
-    // {
-    //     console.log(userId)
-    // }
-
-
-
-
+    //vlaidation pipe dans ce cas, a besoin d'avoir class validator decorator dans le dto ! sinon ne sers à rien
     @Post()
-    createUser(@Body() newUser : any)
+    createUser(@Body(ValidationPipe) newUser : NewUserDTO) : Promise<NewUserDTO>
     {
-        console.log(newUser)
+        return this.usersServe.createUser(newUser)
     }
 
-    @Patch(":id")
-    updateUser(
-        @Param("id", ParseIntPipe) id : number,
-        @Body(ValidationPipe) updateUser : UpdateUser_DTO
-    )
-    {
-        let isOk = null
-        if(!isOk){
-            console.log("Log Error : ", ErrorMessage.USER_NOT_FOUND)
-            throw new HttpException(ErrorMessage.USER_NOT_FOUND, ErrorStatus.USER_NOT_FOUND)
 
-        }
-        else{
-            console.log("Log Success : ", SuccessMessage.USER_GRANTED)
-            return ["user 1 blabla"]
-        }
-        console.log(updateUser)
+    @Patch()
+    updateUser(@Body(ValidationPipe) updateUser : UpdateUserDTO) : Promise<UpdateUserDTO>
+    {
+        return this.usersServe.updateUser(updateUser)
     }
 
     @Delete()
-    deleteOneUser(@Body() deleteUser : any)
+    deleteOneUser(@Body(ValidationPipe) deleteUser : UsersIdDTO) : Promise<UpdateUserDTO>
     {
-        console.log(deleteUser)
+        return this.usersServe.deleteUser(deleteUser)
     }
 }

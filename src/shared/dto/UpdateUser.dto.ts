@@ -1,6 +1,10 @@
 import { IsAlphanumeric, IsDefined, IsNumber, IsString, IsStrongPassword, Length, MaxLength, MinLength } from "class-validator"
 
-export class UpdateUser_DTO{
+export class UpdateUserDTO{
+
+    @IsDefined()
+    @IsNumber()
+    id : number
 
     @IsDefined()
     @IsString()
@@ -16,13 +20,5 @@ export class UpdateUser_DTO{
     pseudo : string
 
 
-    @IsStrongPassword({
-        minLength : 8,
-        minLowercase : 1,
-        minUppercase : 1,
-        minNumbers : 1,
-        minSymbols : 1
-    })
-    // Upper lette, number, char, symbol
-    password : string
+
 }

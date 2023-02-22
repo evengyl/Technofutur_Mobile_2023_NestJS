@@ -11,7 +11,7 @@ import { UsersModule } from './_users/users.module';
       host : "localhost",
       port : 3306,
       username : "root",
-      password : "",
+      password : "legends",
       database : "demo_mobile_techno",
       entities : [__dirname + '/**/*.entity.{ts, js}'],
       autoLoadEntities : true,

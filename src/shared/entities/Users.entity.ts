@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { LifeTime } from "./lifeTime.entity"
 
 @Entity("users")
-export class UsersEntity{
+export class UsersEntity extends LifeTime{
     
     @PrimaryGeneratedColumn()
     id : number
@@ -12,6 +13,8 @@ export class UsersEntity{
     @Column({ unique : true, length : 15})
     pseudo : string
 
-    @Column({ unique : true, type : "text"})
+    @Column({ unique : true })
     password : string
+
+
 }
