@@ -1,15 +1,15 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe } from "@nestjs/common";
-import { NewUserDTO } from "src/shared/dto/NewUser.dto";
-import { UpdateUserDTO } from "src/shared/dto/UpdateUser.dto";
-import { UsersIdDTO } from "src/shared/dto/UserId.dto";
-import { UsersDTO } from "src/shared/dto/Users.dto";
 import { UsersService } from "./users.service";
+import { UsersDTO } from "../shared/dto/users/Users.dto"
+import { NewUserDTO } from "src/shared/dto/users/NewUser.dto";
+import { UpdateUserDTO } from "src/shared/dto/users/UpdateUser.dto";
+import { UsersIdDTO } from "src/shared/dto/users/UserId.dto";
 
 @Controller("api/v1/users")
 export class UsersController{
 
     constructor(
-        private readonly usersServe : UsersService
+        private readonly usersServe : UsersService,
     ) {}
 
 
@@ -46,4 +46,6 @@ export class UsersController{
     {
         return this.usersServe.deleteUser(deleteUser)
     }
+
+
 }

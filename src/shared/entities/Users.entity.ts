@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { GardensEntity } from "./Gardens.entity"
 import { LifeTime } from "./lifeTime.entity"
 
 @Entity("users")
@@ -16,5 +17,6 @@ export class UsersEntity extends LifeTime{
     @Column({ unique : true })
     password : string
 
-
+    @OneToMany(() => GardensEntity, (gardens) => gardens.user, { cascade : ["insert", "update"]})
+    gardens : GardensEntity[]
 }

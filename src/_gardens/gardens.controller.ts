@@ -1,45 +1,60 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe } from "@nestjs/common";
+import { NewGardensDTO } from "src/shared/dto/gardens/NewGardens.dto";
+import { UpdateGardensDTO } from "src/shared/dto/gardens/UpdateGarden.dto";
 import { GardensService } from "./gardens.service";
 
-@Controller("api/v1/gardens")
+@Controller("api/v1/users/:userId/gardens")
 export class GardensController{
 
     constructor(
         private readonly gardensServe : GardensService
     ) {}
 
-
     @Get()
-    getAllGardens() : Promise<any>
+    getAllGardens(@Param("userId", ParseIntPipe) userId : number) : Promise<any>
     {
-        return this.gardensServe.getAllGardens()
+        return this.gardensServe.getAllGardens(userId)
     }
 
 
-    @Get(":id")
-    getOneGardensById(@Param('id', ParseIntPipe) gardenId : number) : Promise<any>
+    @Get(":gardenId")
+    getOneGardensById(
+        @Param("userId", ParseIntPipe) userId : number,
+        @Param('gardenId', ParseIntPipe) gardenId : number
+    ) : Promise<any>
     {
-        return this.gardensServe.getOneGardensById(gardenId)
+        return this.gardensServe.getOneGardensById(userId, gardenId)
     }
 
 
     @Post()
-    createGardens(@Body(ValidationPipe) newGarden : any) : Promise<any>
+    createGardens(
+        @Param("userId", ParseIntPipe) userId : number,
+        @Body(ValidationPipe) newGarden : NewGardensDTO
+    ) : Promise<any>
     {
-        return this.gardensServe.createGardens(newGarden)
+        return this.gardensServe.createGardens(userId, newGarden)
     }
 
 
-    @Patch()
-    updateGardens(@Body(ValidationPipe) updateGarden : any) : Promise<any>
+    @Patch(":gardenId")
+    updateGardens(
+        @Param("userId", ParseIntPipe) userId : number,
+        @Param('gardenId', ParseIntPipe) gardenId : number,
+        @Body(ValidationPipe) updateGarden : UpdateGardensDTO
+    ) : Promise<any>
     {
-        return this.gardensServe.updateGardens(updateGarden)
+        return this.gardensServe.updateGardens(userId, gardenId, updateGarden)
     }
 
 
-    @Delete()
-    deleteOneGardens(@Body(ValidationPipe) deleteGarden : any) : Promise<any>
+    @Delete(":gardenId")
+    deleteOneGardens(
+        @Param("userId", ParseIntPipe) userId : number,
+        @Param('gardenId', ParseIntPipe) gardenId : number
+    ) : Promise<any>
     {
-        return this.gardensServe.deleteGardens(deleteGarden)
+        return this.gardensServe.deleteGardens(userId, gardenId)
     }
+
 }

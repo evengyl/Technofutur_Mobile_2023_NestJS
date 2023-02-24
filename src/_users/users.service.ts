@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { HttpException } from "@nestjs/common/exceptions";
 import { InjectRepository } from "@nestjs/typeorm";
-import { NewUserDTO } from "src/shared/dto/NewUser.dto";
-import { UpdateUserDTO } from "src/shared/dto/UpdateUser.dto";
-import { UsersIdDTO } from "src/shared/dto/UserId.dto";
-import { UsersDTO } from "src/shared/dto/Users.dto";
+import { NewUserDTO } from "src/shared/dto/users/NewUser.dto";
+import { UpdateUserDTO } from "src/shared/dto/users/UpdateUser.dto";
+import { UsersIdDTO } from "src/shared/dto/users/UserId.dto";
+import { UsersDTO } from "src/shared/dto/users/Users.dto";
 import { UsersEntity } from "src/shared/entities/Users.entity";
 import { ErrorMessage, ErrorStatus } from "src/shared/utilities/error.enum";
 import { Repository } from "typeorm";
