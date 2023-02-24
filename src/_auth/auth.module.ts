@@ -7,8 +7,7 @@ import { UsersEntity } from "src/shared/entities/Users.entity";
 import { UsersService } from "src/_users/users.service";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import { JwtStrategy } from "./JWT/jwtStrategy";
-import { secret } from "./JWT/secret";
+import { secret } from "./secret";
 
 @Module({
     imports : [
@@ -24,9 +23,6 @@ import { secret } from "./JWT/secret";
     providers : [
         AuthService,
         UsersService,
-        JwtService,
-        JwtStrategy
-
     ]
 })
 export class AuthModule{}

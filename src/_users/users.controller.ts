@@ -6,7 +6,7 @@ import { UpdateUserDTO } from "src/shared/dto/users/UpdateUser.dto";
 import { UsersIdDTO } from "src/shared/dto/users/UserId.dto";
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiProperty, ApiTags } from "@nestjs/swagger/dist";
 import { UseGuards } from "@nestjs/common/decorators";
-import { JwtAuthGuard } from "src/_auth/JWT/jwtAuthGuard";
+import { JwtAuthGuard } from "src/_auth/jwtAuthGuard";
 
 
 @ApiTags("Users")
