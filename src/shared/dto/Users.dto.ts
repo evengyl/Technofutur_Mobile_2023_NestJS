@@ -1,6 +1,6 @@
 import { IsDefined, IsNumber, IsString, MaxLength, MinLength } from "class-validator"
 
-export class UpdateUserDTO{
+export class UsersDTO{
 
     @IsDefined()
     @IsNumber()

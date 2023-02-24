@@ -1,10 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Ip, Next, Param, ParseIntPipe, Patch, Post, Query, Request, Response, Session, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe } from "@nestjs/common";
 import { NewUserDTO } from "src/shared/dto/NewUser.dto";
 import { UpdateUserDTO } from "src/shared/dto/UpdateUser.dto";
 import { UsersIdDTO } from "src/shared/dto/UserId.dto";
-import { UsersEntity } from "src/shared/entities/Users.entity";
-import { ErrorMessage, ErrorStatus } from "src/shared/utilities/error.enum";
-import { SuccessMessage } from "src/shared/utilities/success.enum";
+import { UsersDTO } from "src/shared/dto/Users.dto";
 import { UsersService } from "./users.service";
 
 @Controller("api/v1/users")
@@ -15,25 +13,20 @@ export class UsersController{
     ) {}
 
 
-
     @Get()
-    getAllUser() : Promise<UsersEntity[]>
+    getAllUser() : Promise<UsersDTO[]>
     {
         return this.usersServe.getAllUser()
     }
 
 
     @Get(":id")
-    getOneUserById(
-        @Param('id', ParseIntPipe) userId : number
-    ) : Promise<UsersEntity>
+    getOneUserById(@Param('id', ParseIntPipe) userId : number) : Promise<UsersDTO>
     {
         return this.usersServe.getOneUserById(userId)
     }
 
 
-
-    //vlaidation pipe dans ce cas, a besoin d'avoir class validator decorator dans le dto ! sinon ne sers à rien
     @Post()
     createUser(@Body(ValidationPipe) newUser : NewUserDTO) : Promise<NewUserDTO>
     {
@@ -46,6 +39,7 @@ export class UsersController{
     {
         return this.usersServe.updateUser(updateUser)
     }
+
 
     @Delete()
     deleteOneUser(@Body(ValidationPipe) deleteUser : UsersIdDTO) : Promise<UpdateUserDTO>

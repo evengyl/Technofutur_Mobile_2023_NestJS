@@ -4,6 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { NewUserDTO } from "src/shared/dto/NewUser.dto";
 import { UpdateUserDTO } from "src/shared/dto/UpdateUser.dto";
 import { UsersIdDTO } from "src/shared/dto/UserId.dto";
+import { UsersDTO } from "src/shared/dto/Users.dto";
 import { UsersEntity } from "src/shared/entities/Users.entity";
 import { ErrorMessage, ErrorStatus } from "src/shared/utilities/error.enum";
 import { Repository } from "typeorm";
@@ -16,7 +17,7 @@ export class UsersService{
         @InjectRepository(UsersEntity) private usersRepo : Repository<UsersEntity>
     ){}
     
-    async getAllUser() : Promise<UsersEntity[]>
+    async getAllUser() : Promise<UsersDTO[]>
     {
         return this.usersRepo.find({
             select : {
@@ -28,7 +29,7 @@ export class UsersService{
     }
 
 
-    async getAllUserWithDelete() : Promise<UsersEntity[]>
+    async getAllUserWithDelete() : Promise<UsersDTO[]>
     {
         return this.usersRepo.find({
             select : {
@@ -40,7 +41,7 @@ export class UsersService{
         })
     }
 
-    async getOneUserById(userId : number) : Promise<UsersEntity>
+    async getOneUserById(userId : number) : Promise<UsersDTO>
     {
 
         return this.usersRepo.findOneOrFail({
