@@ -4,7 +4,12 @@ import { UsersDTO } from "../shared/dto/users/Users.dto"
 import { NewUserDTO } from "src/shared/dto/users/NewUser.dto";
 import { UpdateUserDTO } from "src/shared/dto/users/UpdateUser.dto";
 import { UsersIdDTO } from "src/shared/dto/users/UserId.dto";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiProperty, ApiTags } from "@nestjs/swagger/dist";
+import { UseGuards } from "@nestjs/common/decorators";
+import { JwtAuthGuard } from "src/_auth/JWT/jwtAuthGuard";
 
+
+@ApiTags("Users")
 @Controller("api/v1/users")
 export class UsersController{
 
@@ -13,6 +18,7 @@ export class UsersController{
     ) {}
 
 
+    @ApiOperation({ summary : "Get All Users without gardens"})
     @Get()
     getAllUser() : Promise<UsersDTO[]>
     {
@@ -20,13 +26,18 @@ export class UsersController{
     }
 
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth("access-token")
+    @ApiOperation({ summary : "Get One User By his Id"})
     @Get(":id")
+    @ApiParam({ name : "id", example : 1})
     getOneUserById(@Param('id', ParseIntPipe) userId : number) : Promise<UsersDTO>
     {
         return this.usersServe.getOneUserById(userId)
     }
 
 
+    @ApiOperation({ summary : "Create new User"})
     @Post()
     createUser(@Body(ValidationPipe) newUser : NewUserDTO) : Promise<NewUserDTO>
     {
@@ -34,6 +45,7 @@ export class UsersController{
     }
 
 
+    @ApiOperation({ summary : "Update user"})
     @Patch()
     updateUser(@Body(ValidationPipe) updateUser : UpdateUserDTO) : Promise<UpdateUserDTO>
     {
@@ -41,6 +53,7 @@ export class UsersController{
     }
 
 
+    @ApiOperation({ summary : "Soft delete user by Id"})
     @Delete()
     deleteOneUser(@Body(ValidationPipe) deleteUser : UsersIdDTO) : Promise<UpdateUserDTO>
     {

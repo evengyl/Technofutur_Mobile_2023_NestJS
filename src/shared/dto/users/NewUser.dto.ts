@@ -1,8 +1,11 @@
+import { ApiProperty } from "@nestjs/swagger"
 import { IsDefined, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator"
 
 
 export class NewUserDTO{
     
+
+    @ApiProperty({ example : "Loic"})
     @IsDefined()
     @IsString()
     @MinLength(2)
@@ -10,6 +13,8 @@ export class NewUserDTO{
     //@Length(3,50) same que Minlength et MaxLength
     name : string
 
+
+    @ApiProperty({ example : "Evengyl"})
     @IsDefined()
     @IsString()
     @MinLength(6)
@@ -17,6 +22,7 @@ export class NewUserDTO{
     pseudo : string
 
 
+    @ApiProperty({ example : "Test1234__"})
     @IsDefined()
     @IsStrongPassword({
         minLength : 8,

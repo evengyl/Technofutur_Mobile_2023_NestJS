@@ -45,7 +45,6 @@ export class UsersService{
     {
 
         return this.usersRepo.findOneOrFail({
-            select : { id : true},
             where : { id : userId }
         })
         .catch((error) => {
@@ -93,6 +92,7 @@ export class UsersService{
         
         return this.usersRepo.save(createdUser)
         .catch(_ => { 
+            console.log(_)
             throw new HttpException(ErrorMessage.ERROR_UNKNOW, ErrorStatus.ERROR_UNKNOW)
         })
     }

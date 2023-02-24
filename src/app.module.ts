@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './_auth/auth.module';
 import { GardensModule } from './_gardens/gardens.module';
 import { MicroDocsModule } from './_microDocs/microDocs.module';
 import { UsersModule } from './_users/users.module';
@@ -19,9 +20,10 @@ import { UsersModule } from './_users/users.module';
       //logging : "all"
 
     }),
+    AuthModule,
     UsersModule,
     GardensModule,
-    MicroDocsModule
+    MicroDocsModule,
   ],
   controllers: [],
   providers: [],

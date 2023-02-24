@@ -1,8 +1,10 @@
-import { IsNumber } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsNumber, IsNumberString } from "class-validator";
 import { IsString } from "class-validator";
 
 export class UsersIdDTO{
 
-    @IsNumber()
+    @ApiProperty({ example : 1})
+    @IsNumberString()
     id : number
 }
