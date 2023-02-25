@@ -1,4 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { AddressUserEntity } from "./AddressUser.entity"
 import { GardensEntity } from "./Gardens.entity"
 import { LifeTime } from "./lifeTime.entity"
 
@@ -19,4 +20,7 @@ export class UsersEntity extends LifeTime{
 
     @OneToMany(() => GardensEntity, (gardens) => gardens.user, { cascade : ["insert", "update"]})
     gardens : GardensEntity[]
+
+    @OneToOne(() => AddressUserEntity, (address) => address.user, { cascade : ["insert", "update"]})
+    address : AddressUserEntity
 }

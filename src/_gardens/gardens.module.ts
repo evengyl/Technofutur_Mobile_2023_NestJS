@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AddressUserEntity } from "src/shared/entities/AddressUser.entity";
 import { GardensEntity } from "src/shared/entities/Gardens.entity";
 import { UsersEntity } from "src/shared/entities/Users.entity";
 import { UsersService } from "src/_users/users.service";
@@ -10,7 +11,8 @@ import { GardensService } from "./gardens.service";
     imports : [
         TypeOrmModule.forFeature([
             UsersEntity,
-            GardensEntity
+            GardensEntity,
+            AddressUserEntity
         ])
     ],
     controllers : [GardensController],

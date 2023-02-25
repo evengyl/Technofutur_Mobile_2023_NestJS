@@ -1,10 +1,12 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { HttpException } from "@nestjs/common/exceptions";
 import { InjectRepository } from "@nestjs/typeorm";
+import { AddressUserDTO } from "src/shared/dto/users/AddressUser.dto";
 import { NewUserDTO } from "src/shared/dto/users/NewUser.dto";
 import { UpdateUserDTO } from "src/shared/dto/users/UpdateUser.dto";
 import { UsersIdDTO } from "src/shared/dto/users/UserId.dto";
 import { UsersDTO } from "src/shared/dto/users/Users.dto";
+import { AddressUserEntity } from "src/shared/entities/AddressUser.entity";
 import { UsersEntity } from "src/shared/entities/Users.entity";
 import { ErrorMessage, ErrorStatus } from "src/shared/utilities/error.enum";
 import { Repository } from "typeorm";
@@ -14,7 +16,8 @@ export class UsersService{
 
 
     constructor(
-        @InjectRepository(UsersEntity) private usersRepo : Repository<UsersEntity>
+        @InjectRepository(UsersEntity) private usersRepo : Repository<UsersEntity>,
+        @InjectRepository(AddressUserEntity) private addressRepo : Repository<AddressUserEntity>
     ){}
     
     async getAllUser() : Promise<UsersDTO[]>
@@ -154,6 +157,34 @@ export class UsersService{
         // })
 
     }
+
+
+    async addAddressUser(userId : number, addressUser : AddressUserDTO)
+    {
+        if(!await this.checkUserById(userId))
+            throw new HttpException(ErrorMessage.USER_NOT_FOUND, ErrorStatus.USER_NOT_FOUND)
+    
+        let createAddressUser : AddressUserEntity = this.addressRepo.create(addressUser)
+    
+        return this.usersRepo.save(createAddressUser)
+        .catch(_ => { 
+            console.log(_)
+            throw new HttpException(ErrorMessage.ERROR_UNKNOW, ErrorStatus.ERROR_UNKNOW)
+        })
+    }
+
+    async getAddressUser(userId : number)
+    {
+        return this.usersRepo.find({
+            select : {
+                name : true,
+                pseudo : true,
+                id : true
+            }
+        })
+    }
+
+    
 }
 
 

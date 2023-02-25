@@ -7,6 +7,7 @@ import { UsersIdDTO } from "src/shared/dto/users/UserId.dto";
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiProperty, ApiTags } from "@nestjs/swagger/dist";
 import { UseGuards } from "@nestjs/common/decorators";
 import { JwtAuthGuard } from "src/_auth/jwtAuthGuard";
+import { AddressUserDTO } from "src/shared/dto/users/AddressUser.dto";
 
 
 @ApiTags("Users")
@@ -37,6 +38,8 @@ export class UsersController{
     }
 
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth("access-token")
     @ApiOperation({ summary : "Create new User"})
     @Post()
     createUser(@Body(ValidationPipe) newUser : NewUserDTO) : Promise<NewUserDTO>
@@ -45,6 +48,8 @@ export class UsersController{
     }
 
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth("access-token")
     @ApiOperation({ summary : "Update user"})
     @Patch()
     updateUser(@Body(ValidationPipe) updateUser : UpdateUserDTO) : Promise<UpdateUserDTO>
@@ -53,11 +58,43 @@ export class UsersController{
     }
 
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth("access-token")
     @ApiOperation({ summary : "Soft delete user by Id"})
     @Delete()
     deleteOneUser(@Body(ValidationPipe) deleteUser : UsersIdDTO) : Promise<UpdateUserDTO>
     {
         return this.usersServe.deleteUser(deleteUser)
+    }
+
+
+
+    @Post(":userId/address")
+    @ApiParam({
+        name: 'userId',
+        type: 'number',
+        example : 42
+    })
+    addAddressUser(
+        @Param("userId", ParseIntPipe) userId : number,
+        @Body(ValidationPipe) addressUser : AddressUserDTO
+    )
+    {
+        return this.usersServe.addAddressUser(userId, addressUser)
+    }
+
+
+    @Get(":userId/address")
+    @ApiParam({
+        name: 'userId',
+        type: 'number',
+        example : 42
+    })
+    getAddressUser(
+        @Param("userId", ParseIntPipe) userId : number
+    )
+    {
+        return this.usersServe.getAddressUser(userId)
     }
 
 
